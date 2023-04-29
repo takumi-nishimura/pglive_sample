@@ -13,6 +13,6 @@ pip install PyQt6
 ## Description
 - pgqtgraphはPyQtがベース
     - PyQtの構成と同じ
-<img src="doc/configuration.png" width=400>
 - グラフを並べたい時は，Widgetを作る
 - グラフを重ねたい時は，Plotを作る
+<img src="doc/configuration.png" width=400>
