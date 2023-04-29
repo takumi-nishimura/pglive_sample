@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "pglive-sample"
+version = "0.1.0"
+description = ""
+authors = ["takumi-nishimura <clp13218@nitech.jp>"]
+readme = "README.md"
+packages = [{include = "pglive_sample"}]
+
+[tool.poetry.dependencies]
+python = ">=3.8, <3.11"
+pglive = "^0.6.3"
+pyqt6 = "^6.5.0"
+
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.3.0"
+isort = "^5.12.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
