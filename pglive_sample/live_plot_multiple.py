@@ -23,16 +23,11 @@ def udp_thr():
             pass
 
 
-def live_serial_plot(connector, number):
+def live_serial_plot(connector, key):
     while True:
         try:
             data = que.get(block=False)
-            if number == 1:
-                connector.cb_append_data_point(data["y1"], data["x"])
-            elif number == 2:
-                connector.cb_append_data_point(data["y2"], data["x"])
-            elif number == 3:
-                connector.cb_append_data_point(data["y2"]*2, data["x"])
+            connector.cb_append_data_point(data[key], data["x"])
             time.sleep(0.01)
         except:
             pass
@@ -68,13 +63,13 @@ data_connector2 = DataConnector(plot_curve2, max_points=600, update_rate=1000)
 data_connector3 = DataConnector(plot_curve3, max_points=600, update_rate=1000)
 
 Thread(
-    name="plot1_thr", target=live_serial_plot, args=(data_connector1, 1), daemon=True
+    name="plot1_thr", target=live_serial_plot, args=(data_connector1, "y1"), daemon=True
 ).start()
 Thread(
-    name="plot2_thr", target=live_serial_plot, args=(data_connector2, 2), daemon=True
+    name="plot2_thr", target=live_serial_plot, args=(data_connector2, "y2"), daemon=True
 ).start()
 Thread(
-    name="plot3_thr", target=live_serial_plot, args=(data_connector3, 3), daemon=True
+    name="plot3_thr", target=live_serial_plot, args=(data_connector3, "y3"), daemon=True
 ).start()
 
 main_win.setCentralWidget(panel)
