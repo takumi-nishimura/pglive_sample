@@ -14,7 +14,7 @@ from PyQt6.QtWidgets import QApplication
 def udp_thr():
     while True:
         try:
-            mes, cli_addr = sock.recvfrom(4096)
+            mes, cli_addr = sock.recvfrom(1024)
             if mes:
                 mes = pickle.loads(mes)
                 que.put(mes)
@@ -47,9 +47,9 @@ plot_curve3 = LiveLinePlot(pen="g")
 plot_widget.addItem(plot_curve1)
 plot_widget.addItem(plot_curve2)
 plot_widget.addItem(plot_curve3)
-data_connector1 = DataConnector(plot_curve1, max_points=600, update_rate=1000)
-data_connector2 = DataConnector(plot_curve2, max_points=600, update_rate=1000)
-data_connector3 = DataConnector(plot_curve3, max_points=600, update_rate=1000)
+data_connector1 = DataConnector(plot_curve1, max_points=600, update_rate=200)
+data_connector2 = DataConnector(plot_curve2, max_points=600, update_rate=200)
+data_connector3 = DataConnector(plot_curve3, max_points=600, update_rate=200)
 plot_widget.show()
 Thread(
     name="plot1_thr", target=live_serial_plot, args=(data_connector1, "y1"), daemon=True

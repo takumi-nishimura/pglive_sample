@@ -58,9 +58,9 @@ plot_curve3 = LiveLinePlot(pen="g")
 plot_widget2.addItem(plot_curve3)
 layout.addWidget(plot_widget2, 1, 0)
 
-data_connector1 = DataConnector(plot_curve1, max_points=600, update_rate=1000)
-data_connector2 = DataConnector(plot_curve2, max_points=600, update_rate=1000)
-data_connector3 = DataConnector(plot_curve3, max_points=600, update_rate=1000)
+data_connector1 = DataConnector(plot_curve1, max_points=600, update_rate=200)
+data_connector2 = DataConnector(plot_curve2, max_points=600, update_rate=200)
+data_connector3 = DataConnector(plot_curve3, max_points=600, update_rate=200)
 
 Thread(
     name="plot1_thr", target=live_serial_plot, args=(data_connector1, "y1"), daemon=True
