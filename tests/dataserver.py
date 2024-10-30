@@ -13,7 +13,10 @@ while True:
         x += 0.01
         y1 = np.sin(x)
         y2 = np.cos(x)
-        sock.sendto(pickle.dumps({"x": x, "y1": y1, "y2": y2}), SOCK_ADDRESS)
+        y3 = y1 + y2
+        sock.sendto(
+            pickle.dumps({"x": x, "y1": y1, "y2": y2, "y3": y3}), SOCK_ADDRESS
+        )
         time.sleep(1 / 200)
     except KeyboardInterrupt:
         break

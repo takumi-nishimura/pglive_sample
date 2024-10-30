@@ -11,6 +11,16 @@ from pglive.sources.live_plot_widget import LivePlotWidget
 from PyQt6.QtWidgets import QApplication
 
 
+class ReplaceQueue(queue.Queue):
+    def __init__(self, maxsize=0):
+        super().__init__(maxsize)
+
+    def put(self, item):
+        if self.full():
+            self.get()
+        super().put(item)
+
+
 ### UDPでデータを受け取り，キューでプロットスレッドにデータを投げるループ
 def udp_thr():
     while True:
@@ -41,7 +51,7 @@ sock.bind(SOCK_ADDRESS)
 Thread(target=udp_thr, daemon=True).start()
 
 ### スレッド間（UDP，プロット）データ受け渡し用キュー
-que = queue.Queue()
+que = ReplaceQueue(maxsize=1)
 
 ### プロットスレッドのスタート
 app = QApplication(sys.argv)
