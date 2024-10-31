@@ -2,7 +2,6 @@ import pickle
 import queue
 import socket
 import sys
-import time
 from threading import Thread
 
 from pglive.sources.data_connector import DataConnector
@@ -33,7 +32,12 @@ def udp_thr():
 def live_serial_plot(connector, key):
     while True:
         data = que.get()
-        connector.cb_append_data_point(data[key], data["x"])
+        x = data["x"]
+        y = data[key]
+        if type(y) == list:
+            connector.cb_append_data_array(y, x)
+        else:
+            connector.cb_append_data_point(y, x)
 
 
 que = ReplaceQueue(maxsize=1)

@@ -2,7 +2,6 @@ import pickle
 import queue
 import socket
 import sys
-import time
 from threading import Thread
 
 from pglive.sources.data_connector import DataConnector
@@ -36,12 +35,13 @@ def udp_thr():
 ### キューでUDPスレッドからデータを受け取り，プロットするループ
 def live_serial_plot(connector):
     while True:
-        try:
-            data = que.get(block=False)
-            connector.cb_append_data_point(data["y1"], data["x"])
-            time.sleep(0.01)
-        except:
-            pass
+        data = que.get()
+        x = data["x"]
+        y = data["y1"]
+        if type(y) == list:
+            connector.cb_append_data_array(y, x)
+        else:
+            connector.cb_append_data_point(y, x)
 
 
 ### UDPスレッドのスタート
@@ -58,7 +58,7 @@ app = QApplication(sys.argv)
 plot_widget = LivePlotWidget(title="Live Plot")
 plot_curve = LiveLinePlot()
 plot_widget.addItem(plot_curve)
-data_connector = DataConnector(plot_curve, max_points=600, update_rate=200)
+data_connector = DataConnector(plot_curve, max_points=1000, update_rate=200)
 plot_widget.show()
 Thread(target=live_serial_plot, args=(data_connector,), daemon=True).start()
 app.exec()
